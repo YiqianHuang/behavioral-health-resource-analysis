@@ -89,6 +89,22 @@ Connects the analysis to operational recommendations:
 
 ---
 
+## Dashboard Preview
+
+### Executive Overview
+
+![Executive Overview](dashboards/executive-overview.png)
+
+### Risk and Treatment Alignment
+
+![Risk and Treatment Alignment](dashboards/risk-treatment-alignment.png)
+
+### Operational Actions
+
+![Operational Actions](dashboards/operational-actions.png)
+
+---
+
 ## Metric Definitions
 
 ### Total Admissions
