@@ -10,7 +10,7 @@ Using 2023 SAMHSA TEDS-A admissions data, this project analyzes whether higher-r
 - **25.39%** of all admissions were classified as high risk
 - **45.16%** of high-risk admissions were routed to low-intensity care
 - **186K** high-risk admissions were routed to standard outpatient care
-- **7.06%** of high-risk admissions had extended wait-time exposure
+- **7.06%** of high-risk admissions had delayed admission exposure (8+ days)
 
 ---
 
@@ -48,7 +48,7 @@ Using 2023 SAMHSA Treatment Episode Data Set - Admissions (TEDS-A), this dashboa
 - **45.16%** of high-risk admissions were routed to low-intensity treatment.
 - **186K** high-risk admissions were routed to standard outpatient care.
 - **54.84%** of high-risk admissions were routed to medium- or high-intensity care.
-- **7.06%** of high-risk admissions had extended wait-time exposure.
+- **7.06%** of high-risk admissions had delayed admission exposure (8+ days).
 
 ---
 
@@ -85,7 +85,7 @@ Connects the analysis to operational recommendations:
 
 - Standardize intake risk screening
 - Monitor high-risk low-intensity placement
-- Review extended wait-time exposure
+- Review delayed admission exposure
 
 ---
 
@@ -123,11 +123,25 @@ This metric measures the share of high-risk admissions routed to low-intensity c
 Aligned High-Risk Admissions / High-Risk Admissions
 ```
 
-This metric measures the share of high-risk admissions routed to medium- or high-intensity care.
+This metric measures the share of high-risk admissions routed to medium- or high-intensity treatment pathways.
 
-### High-Risk Extended Wait Rate
+In this project, a high-risk admission is considered aligned when the treatment intensity is not low intensity. This does not prove clinical appropriateness; it is an operational routing indicator used to monitor whether higher-risk patients are being directed toward more supportive care settings.
 
-Share of high-risk admissions with extended wait-time exposure.
+### High-Risk Delayed Admission Rate
+
+```text
+High-risk admissions with DAYWAIT = 2, 3, or 4 / High-Risk Admissions
+```
+
+This metric measures the share of high-risk admissions with an admission wait time of 8 days or more.
+
+Based on the TEDS-A `DAYWAIT` codebook, the delayed admission group includes:
+
+- `DAYWAIT = 2`: 8-14 days
+- `DAYWAIT = 3`: 15-30 days
+- `DAYWAIT = 4`: 31+ days
+
+This KPI is used as an operational warning signal. It does not prove that longer wait time causes dropout, but it helps identify high-risk admissions that may need additional follow-up before admission.
 
 ---
 
@@ -137,6 +151,19 @@ Risk tiers are based on two available admission indicators:
 
 - `PSYPROB`: co-occurring mental health / psychiatric problem flag
 - `EMPLOY`: employment status
+
+### Codebook Reference
+
+The segmentation uses two coded fields from the TEDS-A dataset:
+
+| Field | Code | Meaning |
+|---|---:|---|
+| `PSYPROB` | `1` | Co-occurring mental health / psychiatric problem reported |
+| `PSYPROB` | `2` | No co-occurring mental health / psychiatric problem reported |
+| `EMPLOY` | `1` | Full-time employment |
+| `EMPLOY` | `2` | Part-time employment |
+| `EMPLOY` | `3` | Unemployed |
+| `EMPLOY` | `4` | Not in labor force |
 
 ### High Risk
 
@@ -201,9 +228,9 @@ Use available admission indicators to flag high-risk patients before treatment p
 
 Track the percentage of high-risk admissions routed to standard outpatient care as an operational quality indicator.
 
-### 3. Review Extended Wait-Time Exposure
+### 3. Review Delayed Admission Exposure
 
-Monitor high-risk patients with longer admission wait times and consider proactive follow-up workflows.
+Monitor high-risk patients with 8+ day admission waits and consider proactive follow-up workflows.
 
 ---
 
