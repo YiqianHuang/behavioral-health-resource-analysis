@@ -28,6 +28,41 @@ This pipeline supports three operational monitoring questions:
 
 ---
 
+## Pipeline Design
+
+The Fabric pipeline is separated into two sequential stages:
+
+```text
+Step 1: Ingest Raw CSV to Bronze
+Step 2: Transform Bronze to Silver and Gold
+```
+
+This separation is intentional.
+
+The ingestion step is responsible only for loading the raw source file into a managed Bronze Delta table. The transformation step uses the Bronze table as the stable source for all downstream cleaning, feature engineering, and KPI generation.
+
+Separating these two steps makes the pipeline easier to maintain because raw data ingestion and analytical transformation do not always need to run together.
+
+---
+
+## When to Run Each Step
+
+| Scenario | Run Step 1: Ingest Raw CSV to Bronze | Run Step 2: Transform Bronze to Silver and Gold |
+|---|---:|---:|
+| Source CSV file changed | Yes | Yes |
+| New records were added to the raw CSV | Yes | Yes |
+| Bronze table is already updated | No | Yes |
+| Risk segmentation logic changed | No | Yes |
+| Treatment intensity mapping changed | No | Yes |
+| New KPI or Gold table added | No | Yes |
+| Dashboard layout changed only | No | No |
+
+For example, if the 2023 CSV originally contained only the first six months of admissions and later gets updated with the remaining six months, the ingestion step should be rerun because the source file changed.
+
+If the Bronze table already contains the latest records and only the business logic changes, the pipeline can rerun the transformation step from Bronze without reparsing the raw CSV.
+
+---
+
 ## Fabric Architecture
 
 | Layer | Fabric Component | Purpose |
@@ -36,8 +71,40 @@ This pipeline supports three operational monitoring questions:
 | Bronze | Delta table | Preserves the raw admissions data as a managed table |
 | Silver | Spark Notebook | Cleans coded fields and creates business-readable features |
 | Gold | Delta tables | Produces dashboard-ready KPI and aggregate tables |
-| Orchestration | Fabric Data Pipeline | Runs the notebook to refresh the full data workflow |
+| Orchestration | Fabric Data Pipeline | Runs ingestion and transformation notebooks in sequence |
 | Reporting | Power BI | Visualizes treatment alignment and operational risk KPIs |
+
+---
+
+## Pipeline Stages
+
+### Step 1: Ingest Raw CSV to Bronze
+
+The ingestion notebook reads the raw SAMHSA TEDS-A 2023 CSV file from Lakehouse Files and writes it to a managed Bronze Delta table.
+
+```text
+Files/tedsa_puf_2023.csv
+-> bronze_tedsa_admissions_2023
+```
+
+This step creates a stable raw-data table that downstream transformations can reuse.
+
+The first ingestion activity completed successfully in approximately 1 minute on Fabric F2 capacity.
+
+### Step 2: Transform Bronze to Silver and Gold
+
+The transformation notebook reads from the Bronze Delta table and creates cleaned analytical outputs.
+
+```text
+bronze_tedsa_admissions_2023
+-> silver_tedsa_admissions_cleaned
+-> gold_kpi_summary
+-> gold_risk_treatment_matrix
+-> gold_treatment_distribution
+-> gold_wait_time_by_risk
+```
+
+This step applies business logic, creates risk and treatment features, and generates dashboard-ready KPI tables.
 
 ---
 
@@ -56,7 +123,7 @@ This pipeline supports three operational monitoring questions:
 
 ## Spark Transformation Logic
 
-The Spark notebook creates the Silver layer by translating coded administrative fields into business-readable analytical fields.
+The Spark transformation notebook creates the Silver layer by translating coded administrative fields into business-readable analytical fields.
 
 Key transformations include:
 
@@ -87,24 +154,44 @@ The Gold KPI output was validated against the dashboard-level metrics.
 
 ## Orchestration Result
 
-The Fabric Data Pipeline successfully ran the Spark notebook and rebuilt the Bronze, Silver, and Gold tables.
+The two-stage Fabric Data Pipeline completed successfully on Fabric F2 capacity.
 
-The first full orchestration run completed successfully on Fabric F2 capacity. The notebook was then optimized by removing interactive preview steps and reducing repeated full-table scans for scheduled pipeline execution.
+| Pipeline Activity | Status | Duration |
+|---|---|---:|
+| Ingest Raw CSV to Bronze | Succeeded | 1m 15s |
+| Transform Bronze to Silver and Gold | Succeeded | 2m 39s |
+
+This confirms that the pipeline can rebuild the Bronze, Silver, and Gold analytical layers through an orchestrated Fabric workflow.
+
+### Pipeline Run Screenshot
+
+![Fabric Pipeline Run Succeeded](screenshots/fabric-pipeline-run-succeeded.png)
 
 ---
 
 ## Why This Matters
 
-This extension turns the project from a static dashboard into a repeatable analytics workflow.
+This pipeline establishes a reusable analytics lifecycle that moves raw admissions data into governed KPI tables.
 
-It demonstrates the ability to:
+Once the data is in Fabric, the output can support:
 
-- Ingest raw data into a Lakehouse
-- Build Bronze, Silver, and Gold data layers
-- Use Spark for data transformation
-- Create reusable KPI tables
-- Orchestrate refresh logic with Fabric Data Pipeline
-- Connect curated data outputs to business reporting
+- Power BI dashboarding
+- Operational KPI monitoring
+- Scheduled refresh workflows
+- Future integration with additional healthcare datasets
+- Deeper analysis using facility, staffing, capacity, follow-up, or outcome tables
 
-This pipeline establishes a reusable analytics lifecycle that moves raw admissions data into governed KPI tables, making the output available for dashboarding, operational monitoring, and future integration with additional healthcare datasets.
+This makes the architecture useful beyond a single dashboard. The curated Gold tables can become a foundation for ongoing behavioral health operations analysis.
 
+---
+
+## Future Improvements
+
+Potential next steps include:
+
+- Parameterizing the source file path and admission year
+- Adding row-count validation after each stage
+- Adding data quality checks for missing or unknown coded values
+- Scheduling the pipeline refresh
+- Connecting additional operational tables, such as facility capacity, staffing, payer, or follow-up data
+- Building a semantic model directly from the Gold tables
