@@ -189,10 +189,6 @@ Once the data is in Fabric, the output can support:
 
 This makes the architecture useful beyond a single dashboard. The curated Gold tables can become a foundation for ongoing behavioral health operations analysis.
 
-### Semantic Model Validation Report
-
-![Semantic Model Validation Report](semantic-model-validation-report.png)
-
 ---
 
 ## Future Improvements
@@ -205,3 +201,7 @@ Potential next steps include:
 - Scheduling the pipeline refresh
 - Connecting additional operational tables, such as facility capacity, staffing, payer, or follow-up data
 - Building a semantic model directly from the Gold tables
+
+### Semantic Model Validation Report
+
+![Semantic Model Validation Report](semantic-model-validation-report.png)
