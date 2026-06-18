@@ -43,6 +43,8 @@ The ingestion step is responsible only for loading the raw source file into a ma
 
 Separating these two steps makes the pipeline easier to maintain because raw data ingestion and analytical transformation do not always need to run together.
 
+![Pipeline Canvas](pipeline-canvas.png)
+
 ---
 
 ## When to Run Each Step
@@ -119,6 +121,8 @@ This step applies business logic, creates risk and treatment features, and gener
 | `gold_treatment_distribution` | Admissions by treatment category and intensity |
 | `gold_wait_time_by_risk` | Wait-time distribution by risk profile |
 
+![Lakehouse Output Tables](lakehouse-tables.png)
+
 ---
 
 ## Spark Transformation Logic
@@ -150,6 +154,8 @@ The Gold KPI output was validated against the dashboard-level metrics.
 | High-Risk Alignment Rate | 54.84% |
 | High-Risk Delayed Admission Rate | 7.06% |
 
+![Gold KPI Summary](gold-kpi-summary.png)
+
 ---
 
 ## Orchestration Result
@@ -163,9 +169,9 @@ The two-stage Fabric Data Pipeline completed successfully on Fabric F2 capacity.
 
 This confirms that the pipeline can rebuild the Bronze, Silver, and Gold analytical layers through an orchestrated Fabric workflow.
 
-### Pipeline Run Screenshot
+![Pipeline Run Succeeded](pipeline-run-succeeded.png)
 
-![Fabric Pipeline Run Succeeded](screenshots/fabric-pipeline-run-succeeded.png)
+### Pipeline Run Screenshot
 
 ---
 
