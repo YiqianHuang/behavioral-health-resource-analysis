@@ -288,3 +288,13 @@ Raw admissions data
 
 This will demonstrate the full data workflow behind the analysis, from raw behavioral health data to business-ready operational metrics.
 
+---
+
+## Microsoft Fabric Pipeline Extension
+
+This dashboard was extended into a two-stage Microsoft Fabric pipeline that separates raw data ingestion from analytical transformation.
+
+The pipeline uses Lakehouse Files, Spark notebooks, Bronze/Silver/Gold Delta tables, and Fabric Data Pipeline orchestration to turn raw admissions data into reusable KPI tables.
+
+Read the full pipeline documentation here: [Microsoft Fabric Pipeline Extension](fabric-pipeline/fabric-pipeline-readme.md)
+
