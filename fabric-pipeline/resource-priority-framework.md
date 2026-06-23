@@ -73,6 +73,16 @@ Business interpretation:
 
 These states show lower admission burden and above-average listed facility capacity. They may have comparatively stronger resource availability, though utilization and service mix still require further review.
 
+## Semantic Model
+
+The resource priority report is built from the final Gold table, `gold_state_resource_priority`, exposed through a Fabric semantic model.
+
+![Semantic Model](semantic-model-resource-priority.png)
+
+## Dashboard View
+
+![State Resource Priority Quadrant](state-resource-priority-quadrant.png)
+
 ## Business Meaning
 
 The quadrant view turns two separate public datasets into a state-level resource planning framework.
