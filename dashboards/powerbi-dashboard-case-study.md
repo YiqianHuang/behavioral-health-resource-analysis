@@ -93,15 +93,15 @@ Connects the analysis to operational recommendations:
 
 ### Executive Overview
 
-![Executive Overview](dashboards/executive-overview.png)
+![Executive Overview](executive-overview.png)
 
 ### Risk and Treatment Alignment
 
-![Risk and Treatment Alignment](dashboards/risk-treatment-alignment.png)
+![Risk and Treatment Alignment](risk-treatment-alignment.png)
 
 ### Operational Actions
 
-![Operational Actions](dashboards/operational-actions.png)
+![Operational Actions](operational-actions.png)
 
 ---
 
