@@ -1,252 +1,111 @@
-# Behavioral Health Risk-to-Treatment Alignment Analysis
-### Turning behavioral risk signals into operational care pathway metrics
+# Behavioral Health Treatment Access Friction Analysis
+
+### Power BI dashboard case study: using employment context to explain treatment mismatch
 
 ## TL;DR
 
-Using 2023 SAMHSA TEDS-A admissions data, this project analyzes whether higher-risk behavioral health admissions are routed to treatment pathways that match their operational risk profile.
+Among admissions with co-occurring mental health needs, Treatment Mismatch Rate is highest for employed patients:
 
-- **1.63M** total admissions analyzed
-- **413K** high-risk admissions identified
-- **25.39%** of all admissions were classified as high risk
-- **45.16%** of high-risk admissions were routed to low-intensity care
-- **186K** high-risk admissions were routed to standard outpatient care
-- **7.06%** of high-risk admissions had delayed admission exposure (8+ days)
+- Part-time employed admissions: **68.7%**
+- Full-time employed admissions: **65.5%**
+- Unemployed admissions: **42.0%**
+
+This suggests that mismatch is not only a capacity issue. For employed patients, low-intensity placement may also reflect **access-design friction**: higher-intensity care may be difficult to use when treatment schedules conflict with work.
 
 ---
 
-## The Problem
+## Business Problem
 
-Behavioral health providers need a practical way to monitor whether patients with higher support needs are routed to care pathways that match their level of operational risk.
+Behavioral health providers often monitor admission volume and treatment type, but those metrics do not fully explain whether patients can realistically access the level of care they may need.
 
-Admission volume alone does not show whether treatment intensity is aligned with patient risk. A patient may enter care, but still be routed to a setting that provides less support than their risk profile suggests.
-
-This project treats risk segmentation as an **operational monitoring framework**, not a clinical diagnosis.
+For patients with co-occurring mental health needs, being routed to low-intensity outpatient care can signal a potential treatment mismatch. The key question is whether that mismatch is only driven by system capacity, or whether some patient groups face practical barriers to using higher-intensity treatment.
 
 ---
 
 ## Business Question
 
-Are high-risk behavioral health admissions being routed to treatment pathways that match their level of need?
+What may explain Treatment Mismatch Rate among admissions with co-occurring mental health needs, and does employment status reveal an access barrier?
 
 ---
 
-## What This Analysis Does
+## What This Dashboard Does
 
-Using 2023 SAMHSA Treatment Episode Data Set - Admissions (TEDS-A), this dashboard creates a risk-to-treatment alignment framework:
+This Power BI dashboard examines treatment intensity among admissions with co-occurring mental health needs and compares mismatch patterns by employment status.
 
-1. Classify admissions into operational risk tiers
-2. Map treatment types into low, medium, and high intensity levels
-3. Measure how many high-risk admissions are routed to low-intensity care
-4. Track alignment and mismatch rates as operational KPIs
-5. Translate findings into intake, routing, and follow-up recommendations
+It focuses on three questions:
 
----
-
-## Key Findings
-
-- **25.39%** of all admissions were classified as high risk.
-- **45.16%** of high-risk admissions were routed to low-intensity treatment.
-- **186K** high-risk admissions were routed to standard outpatient care.
-- **54.84%** of high-risk admissions were routed to medium- or high-intensity care.
-- **7.06%** of high-risk admissions had delayed admission exposure (8+ days).
+1. How many co-occurring mental health admissions are routed to low-, medium-, or high-intensity treatment?
+2. Which employment groups have the highest Treatment Mismatch Rate?
+3. Does the pattern suggest an access-design problem beyond total admission volume?
 
 ---
 
-## Behavioral Perspective
+## Key Finding
 
-Patients with co-occurring mental health needs and employment instability may face compounding barriers, including financial pressure, reduced daily structure, and higher difficulty sustaining engagement with care.
+Full-time and part-time employed admissions have the highest Treatment Mismatch Rates, even though they are not the largest admission-volume groups.
 
-From an operational perspective, this group may benefit from closer intake review, stronger pathway monitoring, and proactive follow-up workflows.
-
-This analysis does **not** determine clinical appropriateness. It identifies measurable operational signals that care teams could review.
+This makes employment status useful as an access-context variable. It helps identify whether treatment mismatch may be related to how care is scheduled and delivered, not only how much capacity exists.
 
 ---
 
-## Dashboard Pages
+## Why This Matters
 
-### 1. Executive Overview
+The Treatment Mismatch Rate is highest among full-time (65.5%) and part-time (68.7%) employed admissions - higher than unemployed admissions (42.0%). This is the opposite of what a pure capacity-shortage explanation would predict.
 
-Summarizes total admissions, high-risk admissions, high-risk rate, treatment mismatch rate, treatment type distribution, and admissions by risk profile.
+This points to an accessibility problem rather than only a clinical-need problem. Employed individuals may be defaulting to low-intensity outpatient care not because it best matches their clinical need, but because higher-intensity programs such as IOP or residential treatment often require daytime, multi-day commitments that conflict with work schedules.
 
-### 2. Risk and Treatment Alignment
-
-Focuses on high-risk patients and shows how they are distributed across treatment types and treatment intensity levels.
-
-Core KPIs:
-
-- High-Risk Alignment Rate
-- Treatment Mismatch Rate
-- High-Risk Low-Intensity Admissions
-- High-Risk Admissions
-
-### 3. Operational Actions
-
-Connects the analysis to operational recommendations:
-
-- Standardize intake risk screening
-- Monitor high-risk low-intensity placement
-- Review delayed admission exposure
+In practice, this means working patients may be forced to choose between keeping their job and getting adequately treated. The business opportunity is not necessarily more beds - it is designing treatment plans that do not require that trade-off: evening or weekend IOP slots, telehealth-enabled check-ins, or condensed formats that let employed patients get appropriate-intensity care without giving up income.
 
 ---
 
 ## Dashboard Preview
 
-### Executive Overview
+### Treatment Access Friction by Employment Status
 
-![Executive Overview](executive-overview.png)
+![Treatment Access Friction by Employment Status](employment-mismatch-by-status.png)
 
-### Risk and Treatment Alignment
+---
 
-![Risk and Treatment Alignment](risk-treatment-alignment.png)
+## How To Read The Visual
 
-### Operational Actions
+The stacked columns show the treatment intensity mix for admissions with co-occurring mental health needs.
 
-![Operational Actions](operational-actions.png)
+- Orange: low-intensity care
+- Grey: medium-intensity care
+- Blue: high-intensity care
+- Black line: Treatment Mismatch Rate
+
+The key pattern is that full-time and part-time employed groups have the highest mismatch rates, meaning low-intensity placement is proportionally more common for working patients with co-occurring mental health needs.
+
+---
+
+## Recommended Business Actions
+
+1. Test evening or weekend IOP slots for employed patients with co-occurring mental health needs.
+2. Add telehealth-enabled follow-up or hybrid intensive care options for patients who cannot attend daytime programs.
+3. Track Treatment Mismatch Rate by employment status as an access-design KPI.
+4. Review whether intake routing captures work-schedule constraints before assigning treatment pathway.
+5. Use this dashboard as an operational monitoring tool, not as a clinical appropriateness decision rule.
 
 ---
 
 ## Metric Definitions
 
-### Total Admissions
+### Co-occurring Mental Health Admissions
 
-Distinct count of admission records.
-
-### High-Risk Admissions
-
-Admissions classified as high risk based on the operational risk segmentation logic below.
-
-### High-Risk Rate
-
-```text
-High-Risk Admissions / Total Admissions
-```
-
-### High-Risk Low-Intensity Admissions
-
-High-risk admissions routed to low-intensity treatment.
+Admissions where `PSYPROB = 1` in TEDS-A, meaning a co-occurring mental health / psychiatric problem was reported.
 
 ### Treatment Mismatch Rate
 
-```text
-High-Risk Low-Intensity Admissions / High-Risk Admissions
-```
+Co-occurring mental health admissions routed to low-intensity care divided by all co-occurring mental health admissions in the same employment group.
 
-This metric measures the share of high-risk admissions routed to low-intensity care.
+### Treatment Intensity Mix
 
-### High-Risk Alignment Rate
+The distribution of co-occurring mental health admissions across low-, medium-, and high-intensity treatment.
 
-```text
-Aligned High-Risk Admissions / High-Risk Admissions
-```
+### Employment Status
 
-This metric measures the share of high-risk admissions routed to medium- or high-intensity treatment pathways.
-
-In this project, a high-risk admission is considered aligned when the treatment intensity is not low intensity. This does not prove clinical appropriateness; it is an operational routing indicator used to monitor whether higher-risk patients are being directed toward more supportive care settings.
-
-### High-Risk Delayed Admission Rate
-
-```text
-High-risk admissions with DAYWAIT = 2, 3, or 4 / High-Risk Admissions
-```
-
-This metric measures the share of high-risk admissions with an admission wait time of 8 days or more.
-
-Based on the TEDS-A `DAYWAIT` codebook, the delayed admission group includes:
-
-- `DAYWAIT = 2`: 8-14 days
-- `DAYWAIT = 3`: 15-30 days
-- `DAYWAIT = 4`: 31+ days
-
-This KPI is used as an operational warning signal. It does not prove that longer wait time causes dropout, but it helps identify high-risk admissions that may need additional follow-up before admission.
-
----
-
-## Risk Segmentation Logic
-
-Risk tiers are based on two available admission indicators:
-
-- `PSYPROB`: co-occurring mental health / psychiatric problem flag
-- `EMPLOY`: employment status
-
-### Codebook Reference
-
-The segmentation uses two coded fields from the TEDS-A dataset:
-
-| Field | Code | Meaning |
-|---|---:|---|
-| `PSYPROB` | `1` | Co-occurring mental health / psychiatric problem reported |
-| `PSYPROB` | `2` | No co-occurring mental health / psychiatric problem reported |
-| `EMPLOY` | `1` | Full-time employment |
-| `EMPLOY` | `2` | Part-time employment |
-| `EMPLOY` | `3` | Unemployed |
-| `EMPLOY` | `4` | Not in labor force |
-
-### High Risk
-
-```text
-PSYPROB = 1
-AND
-EMPLOY IN (3, 4)
-```
-
-Interpretation: co-occurring mental health flag plus unemployment or not-in-labor-force status.
-
-### Medium Risk
-
-```text
-PSYPROB = 1 AND EMPLOY = 2
-OR
-PSYPROB = 2 AND EMPLOY = 3
-```
-
-Interpretation: partial employment instability or unemployment without a co-occurring mental health flag.
-
-### Low Risk
-
-```text
-EMPLOY = 1
-```
-
-Interpretation: full-time employment, with or without a co-occurring mental health flag.
-
-This segmentation is an **operational proxy**, not a clinical diagnosis.
-
----
-
-## Treatment Intensity Mapping
-
-### Low Intensity
-
-- Standard Outpatient
-
-### Medium Intensity
-
-- Detox - Outpatient
-- Rehab - Outpatient
-- Intensive Outpatient (IOP)
-
-### High Intensity
-
-- Detox - Residential
-- Rehab - Long-term Residential
-- Rehab - Short-term Residential
-- Intensive Residential
-
----
-
-## Recommendations
-
-### 1. Standardize Intake Risk Screening
-
-Use available admission indicators to flag high-risk patients before treatment pathway assignment.
-
-### 2. Monitor High-Risk Low-Intensity Placement
-
-Track the percentage of high-risk admissions routed to standard outpatient care as an operational quality indicator.
-
-### 3. Review Delayed Admission Exposure
-
-Monitor high-risk patients with 8+ day admission waits and consider proactive follow-up workflows.
+Employment status is used as an access-context variable. It does not define clinical severity by itself, but it helps identify whether work-schedule constraints may be related to treatment pathway mismatch.
 
 ---
 
@@ -255,46 +114,23 @@ Monitor high-risk patients with 8+ day admission waits and consider proactive fo
 | Tool | Purpose |
 |---|---|
 | SAMHSA TEDS-A 2023 | Public admissions dataset |
-| Power Query | Data cleaning and feature engineering |
-| DAX | KPI and metric design |
-| Power BI | Dashboard design and visualization |
-| Microsoft Fabric | Planned end-to-end pipeline extension |
+| Power Query | Data cleaning and feature preparation |
+| DAX | KPI and rate calculations |
+| Power BI | Dashboard design and visual analysis |
 
 ---
 
 ## Limitations
 
 - TEDS-A is admission-based, not person-based. One person may appear more than once.
-- Risk segmentation is based on available administrative fields.
-- The analysis does not prove clinical appropriateness or treatment outcomes.
-- The analysis does not make causal claims about wait time and dropout.
-- Unknown or missing values affect some distributions.
+- The analysis does not prove that employment causes treatment mismatch.
+- Treatment intensity is an operational grouping created for analysis, not a clinical appropriateness judgment.
+- Wait-time analysis did not show a clear enough employment-status pattern to drive the primary recommendation, so it is not the main focus of this dashboard.
 - Recommendations should be validated with clinical and operational stakeholders before use in a real care setting.
 
 ---
 
-## Next Step
+## Data Source
 
-The next version of this project will extend the dashboard into a Microsoft Fabric pipeline:
-
-```text
-Raw admissions data
--> Lakehouse / Warehouse
--> Dataflow Gen2 or Notebook transformations
--> Curated Gold tables
--> Semantic model
--> Power BI dashboard
-```
-
-This will demonstrate the full data workflow behind the analysis, from raw behavioral health data to business-ready operational metrics.
-
----
-
-## Microsoft Fabric Pipeline Extension
-
-This dashboard was extended into a two-stage Microsoft Fabric pipeline that separates raw data ingestion from analytical transformation.
-
-The pipeline uses Lakehouse Files, Spark notebooks, Bronze/Silver/Gold Delta tables, and Fabric Data Pipeline orchestration to turn raw admissions data into reusable KPI tables.
-
-Read the full pipeline documentation here: [Microsoft Fabric Pipeline Extension](fabric-pipeline/fabric-pipeline-readme.md)
-
+SAMHSA Treatment Episode Data Set - Admissions (TEDS-A) 2023  
+Public Use File: https://www.samhsa.gov/data/data-we-collect/teds-treatment-episode-data-set/datafiles
