@@ -77,11 +77,11 @@ These states show lower admission burden and above-average listed facility capac
 
 The resource priority report is built from the final Gold table, `gold_state_resource_priority`, exposed through a Fabric semantic model.
 
-![Semantic Model](semantic-model-resource-priority.png)
+![Semantic Model](../resource-priority/images/semantic-model-resource-priority.png)
 
 ## Dashboard View
 
-![State Resource Priority Quadrant](state-resource-priority-quadrant.png)
+![State Resource Priority Quadrant](../resource-priority/images/state-resource-priority-quadrant.png)
 
 ## Business Meaning
 

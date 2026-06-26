@@ -10,7 +10,7 @@ Among admissions with co-occurring mental health needs, Treatment Mismatch Rate 
 - Full-time employed admissions: **65.5%**
 - Unemployed admissions: **42.0%**
 
-This suggests that mismatch is not only a capacity issue. For employed patients, low-intensity placement may also reflect **access-design friction**: higher-intensity care may be difficult to use when treatment schedules conflict with work.
+This suggests that mismatch is not only a capacity issue. For employed patients, low-intensity placement may also reflect **access-design friction**: higher-intensity care may be harder to use when treatment schedules conflict with work.
 
 ---
 
@@ -52,9 +52,9 @@ This makes employment status useful as an access-context variable. It helps iden
 
 The Treatment Mismatch Rate is highest among full-time (65.5%) and part-time (68.7%) employed admissions - higher than unemployed admissions (42.0%). This is the opposite of what a pure capacity-shortage explanation would predict.
 
-This points to an accessibility problem rather than only a clinical-need problem. Employed individuals may be defaulting to low-intensity outpatient care not because it best matches their clinical need, but because higher-intensity programs such as IOP or residential treatment often require daytime, multi-day commitments that conflict with work schedules.
+This points to a potential accessibility problem rather than only a clinical-need problem. Employed individuals may be defaulting to low-intensity outpatient care not because it best matches their need, but because higher-intensity programs can be harder to fit around work schedules.
 
-In practice, this means working patients may be forced to choose between keeping their job and getting adequately treated. The business opportunity is not necessarily more beds - it is designing treatment plans that do not require that trade-off: evening or weekend IOP slots, telehealth-enabled check-ins, or condensed formats that let employed patients get appropriate-intensity care without giving up income.
+In practice, this means working patients may face a trade-off between keeping income stable and using higher-intensity services. The business opportunity is not necessarily only more beds - it is also reviewing whether care pathways are designed around work-schedule constraints.
 
 ---
 
@@ -62,7 +62,7 @@ In practice, this means working patients may be forced to choose between keeping
 
 ### Treatment Access Friction by Employment Status
 
-![Treatment Access Friction by Employment Status](employment-mismatch-by-status.png)
+![Treatment Access Friction by Employment Status](images/employment-mismatch-by-status.png)
 
 ---
 
@@ -81,10 +81,10 @@ The key pattern is that full-time and part-time employed groups have the highest
 
 ## Recommended Business Actions
 
-1. Test evening or weekend IOP slots for employed patients with co-occurring mental health needs.
-2. Add telehealth-enabled follow-up or hybrid intensive care options for patients who cannot attend daytime programs.
-3. Track Treatment Mismatch Rate by employment status as an access-design KPI.
-4. Review whether intake routing captures work-schedule constraints before assigning treatment pathway.
+1. Track Treatment Mismatch Rate by employment status as an access-design KPI.
+2. Review whether intake routing captures work-schedule constraints before assigning treatment pathway.
+3. Test evening or weekend IOP slots if program schedule data becomes available for evaluation.
+4. Evaluate telehealth or hybrid care options if service modality and follow-up data become available.
 5. Use this dashboard as an operational monitoring tool, not as a clinical appropriateness decision rule.
 
 ---
@@ -125,7 +125,8 @@ Employment status is used as an access-context variable. It does not define clin
 - TEDS-A is admission-based, not person-based. One person may appear more than once.
 - The analysis does not prove that employment causes treatment mismatch.
 - Treatment intensity is an operational grouping created for analysis, not a clinical appropriateness judgment.
-- Wait-time analysis did not show a clear enough employment-status pattern to drive the primary recommendation, so it is not the main focus of this dashboard.
+- Sensitivity checks support the employment pattern across age, wait-time, and state views, but those checks describe association and do not establish causality.
+- The current dataset does not include program schedule, appointment time, telehealth modality, or follow-up outcome fields, so proposed interventions require additional data before impact can be evaluated.
 - Recommendations should be validated with clinical and operational stakeholders before use in a real care setting.
 
 ---
