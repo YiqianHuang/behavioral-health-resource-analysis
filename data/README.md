@@ -34,7 +34,8 @@ To reproduce the analysis:
 
 1. Download the 2023 TEDS-A and N-SUMHSS public-use files from SAMHSA.
 2. Upload the source CSV files to the Fabric Lakehouse Files area.
-3. Run the Fabric pipeline notebooks to rebuild Bronze, Silver, and Gold tables.
-4. Run the statistical validation notebook after the Silver table has been created.
+3. Run `notebooks/00_bronze_ingestion.ipynb` to create Bronze Delta tables from the raw CSV files.
+4. Run `notebooks/01_admission_transformations.ipynb` and `notebooks/02_resource_alignment_transformations.ipynb` to rebuild Silver and Gold tables.
+5. Run `notebooks/03_statistical_validation_sensitivity_analysis.ipynb` after the Silver table has been created.
 
 The analysis depends on public administrative data and should be interpreted as descriptive operational analytics, not clinical diagnosis or causal inference.

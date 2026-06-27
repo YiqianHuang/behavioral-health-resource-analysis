@@ -101,6 +101,13 @@ Files/tedsa_puf_2023.csv
 
 This step creates a stable raw-data table that downstream transformations can reuse.
 
+Notebook implementation:
+
+```text
+notebooks/00_bronze_ingestion.ipynb
+notebooks/00_bronze_ingestion.py
+```
+
 ### Activity 2: Ingest N-SUMHSS Facilities to Bronze
 
 The facility ingestion notebook reads the raw N-SUMHSS facility file and writes it to a managed Bronze Delta table.
@@ -111,6 +118,13 @@ Files/nsumhss_facilities_2023.csv
 ```
 
 This step creates the facility-availability base used by the state resource-priority framework.
+
+Notebook implementation:
+
+```text
+notebooks/00_bronze_ingestion.ipynb
+notebooks/00_bronze_ingestion.py
+```
 
 ### Activity 3: Build Admission Risk Gold Tables
 
