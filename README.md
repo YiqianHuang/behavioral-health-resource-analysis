@@ -115,6 +115,7 @@ This framework is intended for high-level resource review, not as proof of unmet
 - [Statistical Validation](docs/statistical-validation.md)
 - [Power BI Dashboard Case Study](dashboards/powerbi-dashboard-case-study.md)
 - [Fabric Pipeline Documentation](docs/fabric-pipeline.md)
+- [SQL Analytics Endpoint Views](docs/sql-analytics-views.md)
 - [State Resource Priority Framework](docs/resource-priority-framework.md)
 
 ---

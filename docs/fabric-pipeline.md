@@ -236,13 +236,34 @@ This confirms that the pipeline can rebuild the Bronze, Silver, and Gold analyti
 
 The Gold tables are also exposed through SQL Analytics Endpoint views so other teams can query curated metrics without working directly with notebooks or raw files.
 
-The employment access-friction view publishes the same employment-level treatment mix used in the dashboard and validation narrative.
+The SQL serving layer includes two department-facing views:
 
-![SQL View Created](../fabric-pipeline/images/sql-view-created.png)
+| View | Source Gold Table | Department-Facing Use |
+|---|---|---|
+| `vw_employment_access_friction` | `gold_employment_treatment_mix` | Monitor Treatment Mismatch Rate by employment status |
+| `vw_state_resource_priority` | `gold_state_resource_priority` | Review state-level resource priority classifications |
+
+Detailed SQL view documentation: [SQL Analytics Endpoint Views](sql-analytics-views.md)
+
+SQL implementation:
+
+```text
+notebooks/04_sql_views.sql
+```
+
+The SQL Endpoint shows both curated views under `dbo > Views`.
+
+![SQL Views Created](../fabric-pipeline/images/sql-view-created.png)
+
+The employment access-friction view publishes the same employment-level treatment mix used in the dashboard and validation narrative.
 
 The query result confirms that the view returns employment status, treatment intensity, admissions, low-intensity admissions, and Treatment Mismatch Rate in a department-friendly table.
 
-![SQL View Query Result](../fabric-pipeline/images/sql-view-query-result.png)
+![Employment Access Friction View Result](../fabric-pipeline/images/sql-view-query-result.png)
+
+The state resource priority view exposes Expansion Priority states for resource planning review.
+
+![State Resource Priority View Result](../fabric-pipeline/images/sql-view_state_resource_priority.png)
 
 ---
 
