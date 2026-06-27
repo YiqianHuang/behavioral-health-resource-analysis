@@ -108,7 +108,7 @@ An adjusted logistic regression tested whether employment status remained associ
 Low_Intensity_Placement ~ Employment_Status + AGE + SEX + RACE + STFIPS + DAYWAIT
 ```
 
-In the notebook implementation, this binary outcome is stored as `Treatment_Mismatch`; the field name is retained in code for continuity, but it represents low-intensity placement within the employment validation sample.
+In the notebook implementation, this binary outcome is stored as `Low_Intensity_Placement` and represents whether an admission in the employment validation sample was routed to low-intensity care.
 
 | Employment Status Term | Odds Ratio | Business Interpretation |
 |---|---:|---|

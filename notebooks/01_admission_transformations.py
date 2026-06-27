@@ -85,9 +85,9 @@ silver_check = spark.table("silver_tedsa_admissions_cleaned")
 
 # ## 4. Build Gold KPI Summary Table
 # 
-# Calculate the core operational KPIs used in the dashboard, including high-risk rate, treatment mismatch rate, alignment rate, and delayed admission rate.
+# Calculate the core operational KPIs used in the dashboard, including high-risk rate, high-risk low-intensity placement rate, alignment rate, and delayed admission rate.
 
-# In[10]:
+# In[2]:
 
 
 from pyspark.sql import functions as F
@@ -143,7 +143,7 @@ gold_kpi_summary = spark.createDataFrame(
         ("High-Risk Admissions", high_risk_admissions, None),
         ("High Risk Rate", high_risk_admissions, high_risk_admissions / total_admissions),
         ("High-Risk Low-Intensity Admissions", high_risk_low_intensity_admissions, None),
-        ("Treatment Mismatch Rate", high_risk_low_intensity_admissions, high_risk_low_intensity_admissions / high_risk_admissions),
+        ("High-Risk Low-Intensity Placement Rate", high_risk_low_intensity_admissions, high_risk_low_intensity_admissions / high_risk_admissions),
         ("High-Risk Alignment Rate", aligned_high_risk_admissions, aligned_high_risk_admissions / high_risk_admissions),
         ("High-Risk Delayed Admission Rate", high_risk_delayed_admissions, high_risk_delayed_admissions / high_risk_admissions),
     ],
@@ -243,7 +243,7 @@ gold_employment_treatment_mix = (
     .join(employment_totals, on="EMPLOY_Label", how="left")
     .join(low_intensity_by_employment, on="EMPLOY_Label", how="left")
     .withColumn(
-        "Mismatch_Rate",
+        "Low_Intensity_Placement_Rate",
         F.col("Low_Intensity_Admissions") / F.col("Employment_Total_Admissions")
     )
     .withColumn(
@@ -276,7 +276,7 @@ gold_employment_treatment_mix = (
 # 
 # Review the Gold KPI summary table to confirm that the pipeline outputs match the dashboard-level metrics.
 
-# In[12]:
+# In[3]:
 
 
 gold_kpi_summary = spark.table("gold_kpi_summary")
@@ -287,7 +287,7 @@ expected_metrics = [
     "Total Admissions",
     "High-Risk Admissions",
     "High Risk Rate",
-    "Treatment Mismatch Rate",
+    "High-Risk Low-Intensity Placement Rate",
     "High-Risk Alignment Rate",
     "High-Risk Delayed Admission Rate"
 ]
@@ -297,4 +297,3 @@ expected_metrics = [
 
 
 gold_employment_treatment_mix = spark.table("gold_employment_treatment_mix")
-

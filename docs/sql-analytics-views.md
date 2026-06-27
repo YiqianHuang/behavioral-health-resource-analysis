@@ -36,7 +36,7 @@ SELECT
     Admissions,
     Employment_Total_Admissions,
     Low_Intensity_Admissions,
-    Mismatch_Rate,
+    Low_Intensity_Placement_Rate,
     Employment_Sort_Order,
     Treatment_Intensity_Sort_Order
 FROM dbo.gold_employment_treatment_mix;
@@ -71,7 +71,7 @@ gold_employment_treatment_mix
 | `Admissions` | Admissions in the employment and treatment-intensity group |
 | `Employment_Total_Admissions` | Total co-occurring mental health admissions in the employment group |
 | `Low_Intensity_Admissions` | Low-intensity admissions in the employment group |
-| `Mismatch_Rate` | Low-intensity admissions divided by total admissions in the employment group; retained as the existing field name for the employment access-friction view |
+| `Low_Intensity_Placement_Rate` | Low-intensity admissions divided by total admissions in the employment group |
 | `Employment_Sort_Order` | Sort key for Power BI and SQL result ordering |
 | `Treatment_Intensity_Sort_Order` | Sort key for treatment intensity ordering |
 
@@ -87,7 +87,7 @@ SELECT
     High_Risk_Admissions,
     High_Risk_Low_Intensity_Admissions,
     High_Risk_Rate,
-    Treatment_Mismatch_Rate,
+    High_Risk_Low_Intensity_Placement_Rate,
     Facility_Count,
     Inpatient_Facility_Count,
     Residential_Facility_Count,
@@ -126,7 +126,7 @@ gold_state_resource_priority
 | `State` | State abbreviation |
 | `Total_Admissions` | Total TEDS-A admissions in the state |
 | `High_Risk_Admissions` | Admissions classified as high risk by the operational risk framework |
-| `Treatment_Mismatch_Rate` | High-risk low-intensity admissions divided by high-risk admissions; retained as the existing field name in the current Gold table |
+| `High_Risk_Low_Intensity_Placement_Rate` | High-risk low-intensity admissions divided by high-risk admissions |
 | `Facility_Count` | Listed N-SUMHSS treatment facilities in the state |
 | `High_Risk_Admissions_Per_Facility` | High-risk admission burden relative to listed facility count |
 | `Priority_Quadrant` | State-level resource planning classification |

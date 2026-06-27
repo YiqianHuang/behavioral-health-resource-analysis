@@ -62,7 +62,7 @@ In practice, this means working patients may face a trade-off between keeping in
 
 ### Treatment Access Friction by Employment Status
 
-![Treatment Access Friction by Employment Status](images/employment-mismatch-by-status.png)
+![Treatment Access Friction by Employment Status](images/employment-low-intensity-placement-by-status.png)
 
 ---
 

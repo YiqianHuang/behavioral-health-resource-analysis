@@ -8,7 +8,7 @@ SELECT
     Admissions,
     Employment_Total_Admissions,
     Low_Intensity_Admissions,
-    Mismatch_Rate,
+    Low_Intensity_Placement_Rate,
     Employment_Sort_Order,
     Treatment_Intensity_Sort_Order
 FROM dbo.gold_employment_treatment_mix;
@@ -21,7 +21,7 @@ SELECT
     High_Risk_Admissions,
     High_Risk_Low_Intensity_Admissions,
     High_Risk_Rate,
-    Treatment_Mismatch_Rate,
+    High_Risk_Low_Intensity_Placement_Rate,
     Facility_Count,
     Inpatient_Facility_Count,
     Residential_Facility_Count,

@@ -257,7 +257,7 @@ The SQL Endpoint shows both curated views under `dbo > Views`.
 
 The employment access-friction view publishes the same employment-level treatment mix used in the dashboard and validation narrative.
 
-The query result confirms that the view returns employment status, treatment intensity, admissions, low-intensity admissions, and low-intensity placement rate in a department-friendly table.
+The query result confirms that the view returns employment status, treatment intensity, admissions, low-intensity admissions, and `Low_Intensity_Placement_Rate` in a department-friendly table.
 
 ![Employment Access Friction View Result](../fabric-pipeline/images/sql-view-query-result.png)
 

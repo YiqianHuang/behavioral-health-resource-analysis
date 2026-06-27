@@ -189,7 +189,7 @@ gold_state_admission_risk = (
         ).alias("High_Risk_Delayed_Admissions")
     )
     .withColumn("High_Risk_Rate", F.col("High_Risk_Admissions") / F.col("Total_Admissions"))
-    .withColumn("Treatment_Mismatch_Rate", F.col("High_Risk_Low_Intensity_Admissions") / F.col("High_Risk_Admissions"))
+    .withColumn("High_Risk_Low_Intensity_Placement_Rate", F.col("High_Risk_Low_Intensity_Admissions") / F.col("High_Risk_Admissions"))
     .withColumn("High_Risk_Delayed_Admission_Rate", F.col("High_Risk_Delayed_Admissions") / F.col("High_Risk_Admissions"))
 )
 

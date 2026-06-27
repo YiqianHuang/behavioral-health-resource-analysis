@@ -59,11 +59,35 @@ The canvas above shows the orchestrated Fabric pipeline. The downstream serving 
 
 The Power BI dashboard examines treatment intensity among admissions with co-occurring mental health needs and compares low-intensity placement rates by employment status.
 
-![Treatment Access Friction by Employment Status](dashboards/images/employment-mismatch-by-status.png)
+![Treatment Access Friction by Employment Status](dashboards/images/employment-low-intensity-placement-by-status.png)
 
 The dashboard insight was then validated through a statistical notebook and operationalized through Microsoft Fabric Gold outputs.
 
 Detailed validation: [Statistical Validation](docs/statistical-validation.md)
+
+---
+
+## Core Metric Definitions
+
+The initial monitoring signal is the **High-Risk Low-Intensity Placement Rate**:
+
+```text
+High-Risk Low-Intensity Placement Rate =
+High-risk admissions routed to low-intensity treatment
+/ All high-risk admissions
+```
+
+In this project, `High Risk` is an operational risk segment defined in the Silver admissions table as admissions with a co-occurring mental health condition (`PSYPROB = 1`) and an employment status of unemployed or not in the labor force. Low-intensity treatment is an analytical grouping based on the TEDS-A service setting code.
+
+The employment analysis uses the **Employment-Based Low-Intensity Placement Rate**:
+
+```text
+Employment-Based Low-Intensity Placement Rate =
+Co-occurring mental health admissions routed to low-intensity treatment
+/ All co-occurring mental health admissions in the same employment group
+```
+
+Both metrics are review signals. They do not mean low-intensity care was clinically inappropriate for every admission.
 
 ---
 

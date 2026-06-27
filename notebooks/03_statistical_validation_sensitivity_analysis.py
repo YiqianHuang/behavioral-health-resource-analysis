@@ -9,7 +9,7 @@
 # 
 # ## 1. Purpose
 
-# This notebook validates whether employment status is associated with Treatment Mismatch among admissions with co-occurring mental health needs.
+# This notebook validates whether employment status is associated with Low-Intensity Placement among admissions with co-occurring mental health needs.
 # It includes chi-square testing, adjusted logistic regression, and stratified sensitivity checks by age, wait time, and state.
 
 # ## 2. Load Analysis Dataset from Fabric Lakehouse
@@ -57,12 +57,12 @@ analysis_df = (
          .when(F.col("EMPLOY") == 4, "Not in labor force")
     )
     .withColumn(
-        "Treatment_Mismatch",
+        "Low_Intensity_Placement",
         F.when(F.lower(F.col("Treatment_Intensity")).contains("low"), F.lit(1))
          .otherwise(F.lit(0))
     )
     .select(
-        "Treatment_Mismatch",
+        "Low_Intensity_Placement",
         "Treatment_Intensity",
         "Employment_Status",
         "EMPLOY",
@@ -96,7 +96,7 @@ pdf = analysis_df.toPandas()
 pdf.head()
 
 
-# ## 6. Chi-Square Test: Employment Status vs Treatment Mismatch
+# ## 6. Chi-Square Test: Employment Status vs Low-Intensity Placement
 
 # In[ ]:
 
@@ -107,14 +107,14 @@ from scipy.stats import chi2_contingency
 
 chi_pdf = (
     analysis_df
-    .groupBy("Employment_Status", "Treatment_Mismatch")
+    .groupBy("Employment_Status", "Low_Intensity_Placement")
     .count()
     .toPandas()
 )
 
 contingency_table = chi_pdf.pivot(
     index="Employment_Status",
-    columns="Treatment_Mismatch",
+    columns="Low_Intensity_Placement",
     values="count"
 ).fillna(0)
 
@@ -132,7 +132,7 @@ print("P-value:", p_value)
 print("Cramer's V:", cramers_v)
 
 
-# ## 7. Logistic Regression: Adjusted Association with Treatment Mismatch
+# ## 7. Logistic Regression: Adjusted Association with Low-Intensity Placement
 
 # In[ ]:
 
@@ -150,7 +150,7 @@ import pandas as pd
 import statsmodels.formula.api as smf
 
 model = smf.logit(
-    "Treatment_Mismatch ~ C(Employment_Status) + C(AGE) + C(SEX) + C(RACE) + C(STFIPS) + C(DAYWAIT)",
+    "Low_Intensity_Placement ~ C(Employment_Status) + C(AGE) + C(SEX) + C(RACE) + C(STFIPS) + C(DAYWAIT)",
     data=pdf
 ).fit()
 
@@ -180,22 +180,22 @@ odds_ratios
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 
-# Calculate mismatch rate by AGE and Employment_Status
+# Calculate low-intensity placement rate by AGE and Employment_Status
 age_sensitivity = (
     analysis_df
     .groupBy("AGE", "Employment_Status")
     .agg(
         F.count("*").alias("admissions"),
-        F.sum("Treatment_Mismatch").alias("mismatch_admissions")
+        F.sum("Low_Intensity_Placement").alias("low_intensity_admissions")
     )
     .withColumn(
-        "mismatch_rate",
-        F.col("mismatch_admissions") / F.col("admissions")
+        "low_intensity_placement_rate",
+        F.col("low_intensity_admissions") / F.col("admissions")
     )
 )
 
-# Rank employment groups within each age group by mismatch rate
-age_window = Window.partitionBy("AGE").orderBy(F.col("mismatch_rate").desc())
+# Rank employment groups within each age group by low-intensity placement rate
+age_window = Window.partitionBy("AGE").orderBy(F.col("low_intensity_placement_rate").desc())
 
 age_sensitivity_ranked = (
     age_sensitivity
@@ -248,22 +248,22 @@ wait_sensitivity_base = (
     .filter(F.col("Wait_Time_Group") != "Unknown / not collected")
 )
 
-# Calculate mismatch rate by wait-time group and employment status
+# Calculate low-intensity placement rate by wait-time group and employment status
 wait_time_sensitivity = (
     wait_sensitivity_base
     .groupBy("Wait_Time_Group", "Employment_Status")
     .agg(
         F.count("*").alias("admissions"),
-        F.sum("Treatment_Mismatch").alias("mismatch_admissions")
+        F.sum("Low_Intensity_Placement").alias("low_intensity_admissions")
     )
     .withColumn(
-        "mismatch_rate",
-        F.col("mismatch_admissions") / F.col("admissions")
+        "low_intensity_placement_rate",
+        F.col("low_intensity_admissions") / F.col("admissions")
     )
 )
 
-# Rank employment groups within each wait-time group by mismatch rate
-wait_window = Window.partitionBy("Wait_Time_Group").orderBy(F.col("mismatch_rate").desc())
+# Rank employment groups within each wait-time group by low-intensity placement rate
+wait_window = Window.partitionBy("Wait_Time_Group").orderBy(F.col("low_intensity_placement_rate").desc())
 
 wait_time_sensitivity_ranked = (
     wait_time_sensitivity
@@ -309,17 +309,17 @@ state_sensitivity = (
     .groupBy("STFIPS", "Employment_Status")
     .agg(
         F.count("*").alias("admissions"),
-        F.sum("Treatment_Mismatch").alias("mismatch_admissions")
+        F.sum("Low_Intensity_Placement").alias("low_intensity_admissions")
     )
     .withColumn(
-        "mismatch_rate",
-        F.col("mismatch_admissions") / F.col("admissions")
+        "low_intensity_placement_rate",
+        F.col("low_intensity_admissions") / F.col("admissions")
     )
     .filter(F.col("admissions") >= MIN_STATE_EMPLOYMENT_ADMISSIONS)
 )
 
-# Rank employment groups within each state by mismatch rate
-state_window = Window.partitionBy("STFIPS").orderBy(F.col("mismatch_rate").desc())
+# Rank employment groups within each state by low-intensity placement rate
+state_window = Window.partitionBy("STFIPS").orderBy(F.col("low_intensity_placement_rate").desc())
 
 state_sensitivity_ranked = (
     state_sensitivity
@@ -367,11 +367,11 @@ display(state_sensitivity_coverage)
 
 # ## 12. Interpretation Summary
 # 
-# The statistical validation supports employment status as a meaningful access-context variable for Treatment Mismatch among admissions with co-occurring mental health needs.
+# The statistical validation supports employment status as a meaningful access-context variable for Low-Intensity Placement among admissions with co-occurring mental health needs.
 # 
-# The chi-square test found a statistically significant association between employment status and Treatment Mismatch. Logistic regression showed that the association remained significant after adjusting for age, sex, race, state, and wait-time category.
+# The chi-square test found a statistically significant association between employment status and Low-Intensity Placement. Logistic regression showed that the association remained significant after adjusting for age, sex, race, state, and wait-time category.
 # 
-# Sensitivity checks showed that the employment-based mismatch pattern was not isolated to a single subgroup. Part-time employed admissions ranked highest across all age groups; employed groups ranked highest across all wait-time groups; and employed groups ranked highest in 25 of 37 states with sufficient subgroup sample size.
+# Sensitivity checks showed that the employment-based low-intensity placement pattern was not isolated to a single subgroup. Part-time employed admissions ranked highest across all age groups; employed groups ranked highest across all wait-time groups; and employed groups ranked highest in 25 of 37 states with sufficient subgroup sample size.
 # 
 # These results should be interpreted as evidence of a robust descriptive pattern, not causal proof. Additional operational data, such as program schedule, service modality, intake routing rules, insurance coverage, and follow-up outcomes, would be needed to evaluate why this pattern occurs.
 # 
