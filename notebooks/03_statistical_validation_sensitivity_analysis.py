@@ -102,6 +102,7 @@ pdf.head()
 
 
 import pandas as pd
+import numpy as np
 from scipy.stats import chi2_contingency
 
 chi_pdf = (
@@ -118,6 +119,9 @@ contingency_table = chi_pdf.pivot(
 ).fillna(0)
 
 chi2, p_value, dof, expected = chi2_contingency(contingency_table)
+n = contingency_table.to_numpy().sum()
+min_dimension = min(contingency_table.shape) - 1
+cramers_v = np.sqrt(chi2 / (n * min_dimension))
 
 print("Contingency Table:")
 print(contingency_table)
@@ -125,6 +129,7 @@ print(contingency_table)
 print("\nChi-square statistic:", chi2)
 print("Degrees of freedom:", dof)
 print("P-value:", p_value)
+print("Cramer's V:", cramers_v)
 
 
 # ## 7. Logistic Regression: Adjusted Association with Treatment Mismatch
@@ -480,4 +485,3 @@ services_eda_pct = (
 )
 
 display(services_eda_pct)
-
