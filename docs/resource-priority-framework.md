@@ -1,11 +1,11 @@
 # State Resource Priority Framework
 
-The final Gold table, `gold_state_resource_priority`, adds a `Priority_Quadrant` field to translate state-level admission burden and facility capacity into a decision-ready resource planning view.
+The final Gold table, `gold_state_resource_priority`, adds a `Priority_Quadrant` field to translate state-level admission burden and listed facility availability into a decision-ready resource planning view.
 
 This framework combines two public behavioral health datasets:
 
 - **TEDS-A 2023**: used to measure high-risk admission burden by state
-- **N-SUMHSS 2023**: used to measure listed treatment facility capacity by state
+- **N-SUMHSS 2023**: used to measure listed treatment facility availability by state
 
 ## Priority Quadrant Inputs
 
@@ -32,7 +32,7 @@ AND Facility_Count < 582
 
 Business interpretation:
 
-These states show above-average high-risk admission burden with below-average listed facility capacity. They are candidates for resource expansion review.
+These states show above-average high-risk admission burden with below-average listed facility availability. They are candidates for resource expansion review.
 
 ### Optimization Zone
 
@@ -45,7 +45,7 @@ AND Facility_Count >= 582
 
 Business interpretation:
 
-These states show high admission burden, but also above-average facility capacity. They may need resource optimization, service mix review, treatment intensity review, or referral pathway alignment rather than simple facility expansion.
+These states show high admission burden, but also above-average listed facility availability. They may need resource optimization, service mix review, treatment intensity review, or referral pathway alignment rather than simple facility expansion.
 
 ### Low Priority
 
@@ -58,7 +58,7 @@ AND Facility_Count < 582
 
 Business interpretation:
 
-These states show lower high-risk admission burden and below-average listed facility capacity. They are lower immediate priority for expansion, but should still be monitored.
+These states show lower high-risk admission burden and below-average listed facility availability. They are lower immediate priority for expansion, but should still be monitored.
 
 ### Resource Rich
 
@@ -71,7 +71,7 @@ AND Facility_Count >= 582
 
 Business interpretation:
 
-These states show lower admission burden and above-average listed facility capacity. They may have comparatively stronger resource availability, though utilization and service mix still require further review.
+These states show lower admission burden and above-average listed facility availability. They may have comparatively stronger resource availability, though utilization and service mix still require further review.
 
 ## Semantic Model
 
@@ -87,18 +87,18 @@ The resource priority report is built from the final Gold table, `gold_state_res
 
 The quadrant view turns two separate public datasets into a state-level resource planning framework.
 
-TEDS-A shows where high-risk admission burden is concentrated. N-SUMHSS shows where listed behavioral health treatment facilities are available. The joined Gold table compares demand pressure against treatment facility capacity.
+TEDS-A shows where high-risk admission burden is concentrated. N-SUMHSS shows where listed behavioral health treatment facilities are available. The joined Gold table compares demand pressure against listed facility availability.
 
 This helps stakeholders move beyond a flat state ranking and distinguish between different operational responses:
 
-- **Expansion Priority** states may need additional facility capacity or targeted resource review.
+- **Expansion Priority** states may need additional facility availability or targeted resource review.
 - **Optimization Zone** states may already have many facilities, but still experience high admission burden, suggesting the need to examine service mix, treatment intensity, referral pathways, or resource allocation.
 - **Low Priority** and **Resource Rich** states provide context for monitoring and comparison.
 
-In the current output, the dashboard flags **CO, CT, MO, and GA** as Expansion Priority states. These states show above-average high-risk admission burden with below-average listed facility capacity.
+In the current output, the dashboard flags **CO, CT, MO, and GA** as Expansion Priority states. These states show above-average high-risk admission burden with below-average listed facility availability.
 
 ## Interpretation Boundary
 
 This quadrant does **not** prove unmet need at the facility level.
 
-It is a state-level planning proxy that identifies where high-risk admission burden appears high relative to listed treatment capacity. A real-world implementation should validate these findings with facility-level capacity, staffing, utilization, payer mix, geography, and clinical stakeholder input.
+It is a state-level planning proxy that identifies where high-risk admission burden appears high relative to listed treatment facility availability. A real-world implementation should validate these findings with facility-level capacity, staffing, utilization, payer mix, geography, and clinical stakeholder input.

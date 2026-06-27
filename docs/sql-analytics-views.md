@@ -44,11 +44,11 @@ FROM dbo.gold_employment_treatment_mix;
 
 ### Business Use
 
-This view supports recurring monitoring of Treatment Mismatch Rate by employment status.
+This view supports recurring monitoring of low-intensity placement rate by employment status.
 
 It is designed for teams asking:
 
-1. Which employment groups have the highest Treatment Mismatch Rate?
+1. Which employment groups have the highest low-intensity placement rate?
 2. How does treatment intensity mix differ across employment groups?
 3. Are employed patients continuing to show higher low-intensity placement over time?
 
@@ -71,7 +71,7 @@ gold_employment_treatment_mix
 | `Admissions` | Admissions in the employment and treatment-intensity group |
 | `Employment_Total_Admissions` | Total co-occurring mental health admissions in the employment group |
 | `Low_Intensity_Admissions` | Low-intensity admissions in the employment group |
-| `Mismatch_Rate` | Low-intensity admissions divided by total admissions in the employment group |
+| `Mismatch_Rate` | Low-intensity admissions divided by total admissions in the employment group; retained as the existing field name for the employment access-friction view |
 | `Employment_Sort_Order` | Sort key for Power BI and SQL result ordering |
 | `Treatment_Intensity_Sort_Order` | Sort key for treatment intensity ordering |
 
@@ -107,7 +107,7 @@ It is designed for teams asking:
 
 1. Which states show high-risk admission burden relative to listed facility availability?
 2. Which states are flagged as `Expansion Priority`, `Optimization Zone`, `Low Priority`, or `Resource Rich`?
-3. Where should capacity review or resource-planning discussions begin?
+3. Where should resource-availability review or resource-planning discussions begin?
 
 ### Source Table
 
@@ -126,7 +126,7 @@ gold_state_resource_priority
 | `State` | State abbreviation |
 | `Total_Admissions` | Total TEDS-A admissions in the state |
 | `High_Risk_Admissions` | Admissions classified as high risk by the operational risk framework |
-| `Treatment_Mismatch_Rate` | High-risk low-intensity admissions divided by high-risk admissions |
+| `Treatment_Mismatch_Rate` | High-risk low-intensity admissions divided by high-risk admissions; retained as the existing field name in the current Gold table |
 | `Facility_Count` | Listed N-SUMHSS treatment facilities in the state |
 | `High_Risk_Admissions_Per_Facility` | High-risk admission burden relative to listed facility count |
 | `Priority_Quadrant` | State-level resource planning classification |

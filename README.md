@@ -6,9 +6,11 @@
 
 ## Overview
 
-This project investigates whether access to behavioral health treatment differs across employment groups among admissions with co-occurring mental health needs.
+This project investigates whether admissions with higher operational risk are being routed to treatment intensity levels that may warrant additional review.
 
-The core business question is whether some patient groups are more likely to receive low-intensity treatment even when their admission profile suggests a need for additional operational review. The analysis found that employed patients, especially part-time employed patients, had the highest Treatment Mismatch Rates.
+The project began with a high-risk low-intensity placement signal: a meaningful share of admissions classified as high risk were routed to low-intensity treatment. I then explored observable access-context variables, including age, wait time, state, and employment status, to understand where that pattern was most concentrated.
+
+Employment status emerged as the clearest segmentation finding. Among admissions with co-occurring mental health needs, employed patients, especially part-time employed patients, had the highest low-intensity placement rates.
 
 I then extended the analysis into a reusable Microsoft Fabric data product that converts public SAMHSA admissions and facility data into curated Gold tables, a Power BI dashboard, semantic model inputs, and SQL views for downstream analysis.
 
@@ -55,7 +57,7 @@ The canvas above shows the orchestrated Fabric pipeline. The downstream serving 
 
 ## Dashboard
 
-The Power BI dashboard examines treatment intensity among admissions with co-occurring mental health needs and compares Treatment Mismatch Rate by employment status.
+The Power BI dashboard examines treatment intensity among admissions with co-occurring mental health needs and compares low-intensity placement rates by employment status.
 
 ![Treatment Access Friction by Employment Status](dashboards/images/employment-mismatch-by-status.png)
 
@@ -67,9 +69,9 @@ Detailed validation: [Statistical Validation](docs/statistical-validation.md)
 
 ## Key Finding
 
-Among admissions with a co-occurring mental health condition (`PSYPROB = 1`), Treatment Mismatch Rate was highest for employed patients.
+Among admissions with a co-occurring mental health condition (`PSYPROB = 1`), the employment-based low-intensity placement rate was highest for employed patients.
 
-| Employment Status | Treatment Mismatch Rate |
+| Employment Status | Low-Intensity Placement Rate |
 |---|---:|
 | Part-time employed | 68.7% |
 | Full-time employed | 65.5% |
@@ -78,11 +80,11 @@ Among admissions with a co-occurring mental health condition (`PSYPROB = 1`), Tr
 
 Statistical validation supported the dashboard finding:
 
-- Chi-square testing found a statistically significant association between employment status and Treatment Mismatch.
+- Chi-square testing found a statistically significant association between employment status and low-intensity placement.
 - Logistic regression showed the association remained after adjusting for age, sex, race, state, and wait-time category.
 - Sensitivity checks showed the pattern was not isolated to one age group, wait-time category, or small set of states.
 
-This supports employment status as a meaningful access-context variable for operational monitoring. It does not prove that employment causes mismatch.
+This supports employment status as a meaningful access-context variable for operational monitoring. It does not prove that employment causes low-intensity placement.
 
 ---
 
@@ -122,4 +124,4 @@ This framework is intended for high-level resource review, not as proof of unmet
 
 ## Interpretation Boundary
 
-This project uses public administrative data for operational analytics. Treatment Mismatch is an operational monitoring proxy, not a clinical appropriateness judgment. The results describe associations and patterns that may warrant review; they do not establish causality or patient-level clinical need.
+This project uses public administrative data for operational analytics. Low-intensity placement among higher-risk or co-occurring admissions is an operational monitoring proxy, not a clinical appropriateness judgment. The results describe associations and patterns that may warrant review; they do not establish causality or patient-level clinical need.

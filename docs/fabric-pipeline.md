@@ -16,7 +16,7 @@ Raw public CSV files in Lakehouse Files
 
 ## Business Purpose
 
-Behavioral health teams need a repeatable way to monitor whether higher-risk admissions are being routed to care pathways that match their operational risk profile.
+Behavioral health teams need a repeatable way to monitor whether higher-risk admissions are being routed to care pathways that may warrant additional operational review.
 
 A one-time dashboard can identify the issue, but a pipeline makes the analysis repeatable, auditable, and easier to refresh when new admissions data becomes available.
 
@@ -24,8 +24,8 @@ This pipeline supports three operational monitoring questions:
 
 1. How many admissions are classified as high risk?
 2. Are high-risk admissions routed to low-, medium-, or high-intensity care?
-3. Which employment groups show the highest Treatment Mismatch Rate?
-4. Which states may need resource-capacity review based on high-risk admissions and listed facility availability?
+3. Which employment groups show the highest low-intensity placement rate?
+4. Which states may need resource-availability review based on high-risk admissions and listed facility availability?
 
 ---
 
@@ -80,11 +80,11 @@ If the Bronze tables already contain the latest records and only the business lo
 | Raw | Lakehouse Files | Stores the original SAMHSA TEDS-A admissions and N-SUMHSS facility CSV files |
 | Bronze | Delta tables | Preserves raw admissions and facility data as managed tables |
 | Silver | Spark Notebooks | Cleans coded fields and creates business-readable analytical features |
-| Gold | Delta tables | Produces dashboard-ready KPI, employment mismatch, and state resource tables |
+| Gold | Delta tables | Produces dashboard-ready KPI, employment access-friction, and state resource tables |
 | Orchestration | Fabric Data Pipeline | Runs ingestion and transformation notebooks as repeatable activities |
 | Semantic Layer | Fabric Semantic Model | Reuses Gold tables for Power BI reporting |
 | SQL Access | SQL Analytics Endpoint Views | Publishes department-facing query views |
-| Reporting | Power BI | Visualizes treatment alignment, employment mismatch, and resource-priority KPIs |
+| Reporting | Power BI | Visualizes treatment alignment, employment access-friction, and resource-priority KPIs |
 
 ---
 
@@ -155,7 +155,7 @@ silver_nsumhss_facilities_cleaned
 -> gold_state_resource_priority
 ```
 
-This step extends the same curated data product into capacity review by comparing high-risk admission burden with listed facility availability.
+This step extends the same curated data product into resource-availability review by comparing high-risk admission burden with listed facility availability.
 
 ---
 
@@ -166,9 +166,9 @@ This step extends the same curated data product into capacity review by comparin
 | `bronze_tedsa_admissions_2023` | Raw admissions data stored as a Delta table |
 | `bronze_nsumhss_facilities_2023` | Raw facility data stored as a Delta table |
 | `silver_tedsa_admissions_cleaned` | Cleaned admissions data with risk, wait-time, and treatment intensity fields |
-| `silver_nsumhss_facilities_cleaned` | Cleaned facility table used for state-level capacity measures |
+| `silver_nsumhss_facilities_cleaned` | Cleaned facility table used for state-level facility-availability measures |
 | `gold_kpi_summary` | Core KPI table for dashboard-level metrics |
-| `gold_employment_treatment_mix` | Employment-level treatment mix and Treatment Mismatch Rate table |
+| `gold_employment_treatment_mix` | Employment-level treatment mix and low-intensity placement rate table |
 | `gold_risk_treatment_matrix` | Admissions by risk profile and treatment intensity |
 | `gold_treatment_distribution` | Admissions by treatment category and intensity |
 | `gold_wait_time_by_risk` | Wait-time distribution by risk profile |
@@ -192,14 +192,14 @@ Key transformations include:
 - Mapping `DAYWAIT` into wait-time tiers
 - Creating `Risk_Profile`
 - Creating `Treatment_Intensity`
-- Generating employment-level mismatch and treatment-mix tables
+- Generating employment-level access-friction and treatment-mix tables
 - Generating state-level resource-priority tables from admissions and facility data
 
 ---
 
 ## Pipeline Validation
 
-The Gold KPI output was validated against the dashboard-level metrics.
+The Gold KPI output was validated against the high-risk placement metrics produced by the transformation logic.
 
 | KPI | Value |
 |---|---:|
@@ -207,7 +207,7 @@ The Gold KPI output was validated against the dashboard-level metrics.
 | High-Risk Admissions | 412,766 |
 | High Risk Rate | 25.39% |
 | High-Risk Low-Intensity Admissions | 186,385 |
-| Treatment Mismatch Rate | 45.16% |
+| High-Risk Low-Intensity Placement Rate | 45.16% |
 | High-Risk Alignment Rate | 54.84% |
 | High-Risk Delayed Admission Rate | 7.06% |
 
@@ -240,7 +240,7 @@ The SQL serving layer includes two department-facing views:
 
 | View | Source Gold Table | Department-Facing Use |
 |---|---|---|
-| `vw_employment_access_friction` | `gold_employment_treatment_mix` | Monitor Treatment Mismatch Rate by employment status |
+| `vw_employment_access_friction` | `gold_employment_treatment_mix` | Monitor low-intensity placement rate by employment status |
 | `vw_state_resource_priority` | `gold_state_resource_priority` | Review state-level resource priority classifications |
 
 Detailed SQL view documentation: [SQL Analytics Endpoint Views](sql-analytics-views.md)
@@ -257,7 +257,7 @@ The SQL Endpoint shows both curated views under `dbo > Views`.
 
 The employment access-friction view publishes the same employment-level treatment mix used in the dashboard and validation narrative.
 
-The query result confirms that the view returns employment status, treatment intensity, admissions, low-intensity admissions, and Treatment Mismatch Rate in a department-friendly table.
+The query result confirms that the view returns employment status, treatment intensity, admissions, low-intensity admissions, and low-intensity placement rate in a department-friendly table.
 
 ![Employment Access Friction View Result](../fabric-pipeline/images/sql-view-query-result.png)
 
