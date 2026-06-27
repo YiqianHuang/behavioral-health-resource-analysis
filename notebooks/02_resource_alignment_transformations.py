@@ -235,6 +235,15 @@ gold_state_resource_alignment = (
 )
 
 
+(
+    gold_state_resource_alignment.write
+    .mode("overwrite")
+    .option("overwriteSchema", "true")
+    .format("delta")
+    .saveAsTable("gold_state_resource_alignment")
+)
+
+
 # ## 11. Add Priority Quadrant Classification
 # 
 # Classify each state into a resource planning quadrant based on high-risk admission burden and facility capacity. This turns the state-level Gold table into a decision-ready prioritization layer.
@@ -243,10 +252,6 @@ gold_state_resource_alignment = (
 
 
 from pyspark.sql import functions as F
-
-# Reload the Gold state resource alignment table from the previously saved Delta table
-# so this cell works even if the notebook was run out of order.
-gold_state_resource_alignment = spark.table("gold_state_resource_alignment")
 
 # Compute average high-risk admissions and facility count across all states
 avg_admissions = gold_state_resource_alignment.select(
@@ -258,7 +263,7 @@ avg_facilities = gold_state_resource_alignment.select(
 ).collect()[0][0]
 
 # Add the Priority_Quadrant classification based on those averages
-gold_state_resource_alignment = (
+gold_state_resource_priority = (
     gold_state_resource_alignment
     .withColumn(
         "Priority_Quadrant",
@@ -289,10 +294,8 @@ gold_state_resource_alignment = (
 # In[2]:
 
 
-gold_state_resource_alignment = spark.table("gold_state_resource_alignment")
-
 (
-    gold_state_resource_alignment.write
+    gold_state_resource_priority.write
     .mode("overwrite")
     .option("overwriteSchema", "true")
     .format("delta")
@@ -308,4 +311,3 @@ gold_state_resource_alignment = spark.table("gold_state_resource_alignment")
 
 
 display(spark.table("gold_state_resource_priority"))
-
