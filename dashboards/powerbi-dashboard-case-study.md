@@ -115,8 +115,8 @@ Employment status is used as an access-context variable. It does not define clin
 |---|---|
 | SAMHSA TEDS-A 2023 | Public admissions dataset |
 | Power Query | Data cleaning and feature preparation |
-| DAX | KPI and rate calculations |
-| Power BI | Dashboard design and visual analysis |
+| Fabric Semantic Model | Expose Gold tables and reusable fields for reporting |
+| Power BI Report | Build dashboard visuals using semantic model tables |
 
 ---
 

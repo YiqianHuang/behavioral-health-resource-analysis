@@ -103,9 +103,9 @@ This framework is intended for high-level resource review, not as proof of unmet
 | Microsoft Fabric Lakehouse | Store raw, cleaned, and curated Delta tables |
 | Fabric Notebooks / PySpark | Data cleaning, feature engineering, validation, and Gold table generation |
 | Fabric Data Pipeline | Orchestrate ingestion and transformation activities |
-| Fabric Semantic Model | Reuse Gold tables and measures for reporting |
+| Fabric Semantic Model | Expose Gold tables and reusable fields for reporting |
 | SQL Analytics Endpoint | Publish department-facing query views |
-| Power BI / DAX | Build dashboard visuals and KPI calculations |
+| Power BI Report | Build dashboard visuals using semantic model tables |
 | Python / scipy / statsmodels | Run chi-square testing, logistic regression, and odds-ratio interpretation |
 
 ---
