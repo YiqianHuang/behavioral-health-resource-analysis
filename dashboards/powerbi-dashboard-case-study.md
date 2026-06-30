@@ -4,7 +4,7 @@
 
 ## TL;DR
 
-After the project identified a high-risk low-intensity placement signal, this dashboard explored where low-intensity placement was most concentrated among admissions with co-occurring mental health needs. The employment-based low-intensity placement rate is highest for employed patients:
+This dashboard examines treatment access friction among admissions with co-occurring mental health needs. It compares low-intensity placement rates by employment status and finds that the employment-based low-intensity placement rate is highest for employed patients:
 
 - Part-time employed admissions: **68.7%**
 - Full-time employed admissions: **65.5%**
@@ -45,6 +45,8 @@ It focuses on three questions:
 Full-time and part-time employed admissions have the highest low-intensity placement rates, even though they are not the largest admission-volume groups.
 
 This makes employment status useful as an access-context variable. It helps identify whether low-intensity placement may be related to how care is scheduled and delivered, not only how much resource availability exists.
+
+The dashboard uses the co-occurring mental health sample as the analysis population. It does not use the project's high-risk operational review segment as the population for this employment comparison, because that segment already includes employment status in its definition.
 
 ---
 
@@ -103,6 +105,14 @@ Co-occurring mental health admissions routed to low-intensity care divided by al
 
 The distribution of co-occurring mental health admissions across low-, medium-, and high-intensity treatment.
 
+Treatment intensity is an analytical grouping of the TEDS-A `SERVICES` service setting field. It is used to monitor treatment setting patterns and is not a clinical appropriateness score.
+
+| Project Treatment Intensity | TEDS-A `SERVICES` Codes |
+|---|---|
+| Low Intensity | 7 |
+| Medium Intensity | 1, 2, 6 |
+| High Intensity | 3, 4, 5, 8 |
+
 ### Employment Status
 
 Employment status is used as an access-context variable. It does not define clinical severity by itself, but it helps identify whether work-schedule constraints may be related to low-intensity placement patterns.
@@ -124,6 +134,7 @@ Employment status is used as an access-context variable. It does not define clin
 
 - TEDS-A is admission-based, not person-based. One person may appear more than once.
 - The analysis does not prove that employment causes low-intensity placement.
+- The employment analysis is scoped to co-occurring mental health admissions with usable employment values; it is not defined by the high-risk operational review segment used elsewhere in the project.
 - Treatment intensity is an operational grouping created for analysis, not a clinical appropriateness judgment.
 - Sensitivity checks support the employment pattern across age, wait-time, and state views, but those checks describe association and do not establish causality.
 - The current dataset does not include program schedule, appointment time, telehealth modality, or follow-up outcome fields, so proposed interventions require additional data before impact can be evaluated.

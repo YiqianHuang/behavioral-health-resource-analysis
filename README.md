@@ -6,13 +6,14 @@
 
 ## Overview
 
-This project investigates whether admissions with higher operational risk are being routed to treatment intensity levels that may warrant additional review.
+This project is an end-to-end healthcare analytics case study that turns public SAMHSA admissions and facility data into a repeatable Microsoft Fabric and Power BI monitoring workflow.
 
-The project began with a high-risk low-intensity placement signal: a meaningful share of admissions classified as high risk were routed to low-intensity treatment. I then explored observable access-context variables, including age, wait time, state, and employment status, to understand where that pattern was most concentrated.
+The analysis has two connected workstreams:
 
-Employment status emerged as the clearest segmentation finding. Among admissions with co-occurring mental health needs, employed patients, especially part-time employed patients, had the highest low-intensity placement rates.
+- **Treatment access friction**: among admissions with co-occurring mental health needs, identify which observable access-context segments have higher low-intensity placement rates.
+- **State resource planning**: compare state-level admission burden with listed behavioral health facility availability to create a high-level planning view.
 
-I then extended the analysis into a reusable Microsoft Fabric data product that converts public SAMHSA admissions and facility data into curated Gold tables, a Power BI dashboard, semantic model inputs, and SQL views for downstream analysis.
+The strongest descriptive finding is in the treatment access workstream: among admissions with co-occurring mental health needs, employed patients, especially part-time employed patients, had the highest low-intensity placement rates. The result was then operationalized through curated Gold tables, a Power BI dashboard, semantic model inputs, and SQL views for downstream analysis.
 
 The analysis is descriptive, not causal. It identifies patterns that may warrant operational review, but it does not determine why those patterns occur.
 
@@ -69,7 +70,7 @@ Detailed validation: [Statistical Validation](docs/statistical-validation.md)
 
 ## Core Metric Definitions
 
-The initial monitoring signal is the **High-Risk Low-Intensity Placement Rate**:
+The pipeline includes a **High-Risk Low-Intensity Placement Rate** as an operational review signal:
 
 ```text
 High-Risk Low-Intensity Placement Rate =
@@ -77,7 +78,7 @@ High-risk admissions routed to low-intensity treatment
 / All high-risk admissions
 ```
 
-In this project, `High Risk` is an operational risk segment defined in the Silver admissions table as admissions with a co-occurring mental health condition (`PSYPROB = 1`) and an employment status of unemployed or not in the labor force. Low-intensity treatment is an analytical grouping based on the TEDS-A service setting code.
+In this project, `High Risk` is a high-risk operational review segment defined in the Silver admissions table as admissions with a co-occurring mental health condition (`PSYPROB = 1`) and an employment status of unemployed or not in the labor force. This segment is used for monitoring and state-level resource views; it is not used to define the employment-based finding below.
 
 The employment analysis uses the **Employment-Based Low-Intensity Placement Rate**:
 
@@ -88,6 +89,21 @@ Co-occurring mental health admissions routed to low-intensity treatment
 ```
 
 Both metrics are review signals. They do not mean low-intensity care was clinically inappropriate for every admission.
+
+Treatment intensity is an analytical grouping of the TEDS-A `SERVICES` service setting field. TEDS-A defines `SERVICES` as the type of treatment service or setting at admission. This project groups those service settings into three monitoring categories:
+
+| TEDS-A `SERVICES` Code | TEDS-A Service Setting | Project Treatment Intensity |
+|---:|---|---|
+| 7 | Ambulatory, non-intensive outpatient | Low Intensity |
+| 1 | Detox, 24-hour, hospital inpatient | Medium Intensity |
+| 2 | Detox, 24-hour, free-standing residential | Medium Intensity |
+| 6 | Ambulatory, intensive outpatient | Medium Intensity |
+| 3 | Rehab/residential, hospital, non-detox | High Intensity |
+| 4 | Rehab/residential, short term, 30 days or fewer | High Intensity |
+| 5 | Rehab/residential, long term, more than 30 days | High Intensity |
+| 8 | Ambulatory, detoxification | High Intensity |
+
+This grouping is intended for operational monitoring, not clinical appropriateness scoring. It makes treatment setting patterns easier to compare across segments, but it should not be interpreted as a universal clinical severity hierarchy.
 
 ---
 
@@ -114,11 +130,11 @@ This supports employment status as a meaningful access-context variable for oper
 
 ## Additional Resource Planning View
 
-The project also includes a state-level resource priority framework that compares high-risk admission burden with listed behavioral health treatment facility availability.
+The project also includes a separate state-level resource priority framework that compares high-risk admission burden with listed behavioral health treatment facility availability.
 
 ![State Resource Priority Quadrant](resource-priority/images/state-resource-priority-quadrant.png)
 
-This framework is intended for high-level resource review, not as proof of unmet need at the facility level.
+This framework is intended for high-level resource review, not as proof of unmet need at the facility level. The current quadrant thresholds use state averages as a simple planning heuristic; a production allocation model should test alternative thresholds and add population, capacity, staffing, utilization, and geography measures.
 
 ---
 

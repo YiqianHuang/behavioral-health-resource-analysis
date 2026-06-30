@@ -2,7 +2,7 @@
 
 This document provides the detailed validation behind the employment-based low-intensity placement finding summarized in the project README.
 
-The broader project first identified a high-risk low-intensity placement signal: a substantial number of admissions classified as high risk were routed to low-intensity treatment. This validation examines whether employment status helps explain where that pattern is concentrated among admissions with co-occurring mental health needs.
+The validation is intentionally scoped to admissions with co-occurring mental health needs (`PSYPROB = 1`). It does not use the project's high-risk operational review segment as the analysis population, because that segment already includes employment status in its definition: co-occurring mental health needs plus unemployed or not-in-labor-force status. This avoids using employment status both to define the population and to explain the result.
 
 The validation asks:
 
@@ -46,6 +46,21 @@ Co-occurring mental health admissions routed to low-intensity care
 
 Admissions involving co-occurring mental health needs that receive low-intensity outpatient services are flagged for monitoring because these cases may warrant additional operational review.
 
+Treatment intensity is derived from the TEDS-A `SERVICES` service setting field and grouped into low, medium, and high intensity categories for analysis.
+
+| TEDS-A `SERVICES` Code | TEDS-A Service Setting | Project Treatment Intensity |
+|---:|---|---|
+| 7 | Ambulatory, non-intensive outpatient | Low Intensity |
+| 1 | Detox, 24-hour, hospital inpatient | Medium Intensity |
+| 2 | Detox, 24-hour, free-standing residential | Medium Intensity |
+| 6 | Ambulatory, intensive outpatient | Medium Intensity |
+| 3 | Rehab/residential, hospital, non-detox | High Intensity |
+| 4 | Rehab/residential, short term, 30 days or fewer | High Intensity |
+| 5 | Rehab/residential, long term, more than 30 days | High Intensity |
+| 8 | Ambulatory, detoxification | High Intensity |
+
+The grouping is an operational simplification for monitoring treatment setting patterns; it is not a clinical severity score and should not be interpreted as a claim that a specific admission received inappropriate care.
+
 ---
 
 ## Exploratory Analysis
@@ -68,7 +83,7 @@ Raw service codes were more unevenly distributed, with the largest raw service c
 
 Employment status was selected because it captures an operational context that may influence treatment accessibility. Unlike demographic characteristics that are largely descriptive, employment may affect a patient's ability to attend higher-intensity outpatient programs with fixed daytime schedules.
 
-This project does not assume employment causes low-intensity placement. It uses employment as a practical segmentation variable for operational monitoring.
+This project does not assume employment causes low-intensity placement. It uses employment as a practical segmentation variable for operational monitoring. The analysis population is all admissions with co-occurring mental health needs and usable employment values, not the high-risk operational review segment used elsewhere in the pipeline.
 
 ### Why Logistic Regression?
 
@@ -162,8 +177,9 @@ A reduction in employment-based low-intensity placement over time could indicate
 
 - The analysis is descriptive and does not establish causality.
 - TEDS-A is admission-based, not person-based; one person may appear more than once.
-- Treatment intensity is an operational grouping created for analysis, not a clinical appropriateness rule.
+- Treatment intensity is an operational grouping of the TEDS-A `SERVICES` field created for analysis, not a clinical appropriateness rule.
 - Employment-based low-intensity placement is an operational monitoring proxy, not a clinical diagnosis.
+- Employment status is evaluated within the co-occurring mental health sample and is not used to define the validation population.
 - The employment analysis does not control for insurance coverage, income, geography, referral pathway, employer support, severity, state policy, or other potential confounders.
 - The current data does not include program schedule, slot time, telehealth modality, staffing, utilization, or follow-up outcomes.
 - The logistic regression adjusts for available administrative covariates only; unmeasured confounding may remain.
